@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todos</title>
+</head>
+<body>
+    <h1>Todo List</h1>
+    <ul id="todoList"></ul>
+
+    <script>
+        const electron = require('electron')
+        const { ipcRenderer } = electron;
+
+
+        function displayTodos(todos) {
+            const todoList = document.querySelector('#todoList')
+            let li = document.createElement('li');
+            let deleteBtn = document.createElement('button');
+            deleteBtn.classList.add('delete')
+            deleteBtn.innerHTML = 'x';
+            todos.map(({ description }, index) => {
+                li.innerHTML = `${index}: ${description}`;
+                li.appendChild(deleteBtn);
+                return (
+                    todoList.appendChild(li)
+                )
+            })
+        }
+
+        ipcRenderer.on('todoList:display', (event, todos) => {
+            debugger
+            displayTodos(todos);
+        })
+
+
+        document.addEventListener('click', (event, todo) => {
+            if (event.target.className === 'delete') {
+                ipcRenderer.send('todo:delete', todo)
+            }
+        })
+
+        // ipcRenderer.on('todo:delete', (event, todo) => {
+        //
+        // })
+        // displayTodos();
+
+    </script>
+</body>
+</html>
