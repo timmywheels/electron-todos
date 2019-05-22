@@ -14,10 +14,9 @@
     <script>
         const electron = require('electron')
         const { ipcRenderer } = electron;
-
+        const todoList = document.querySelector('#todoList')
 
         function displayTodos(todos) {
-            const todoList = document.querySelector('#todoList')
             let li = document.createElement('li');
             let deleteBtn = document.createElement('button');
             deleteBtn.classList.add('delete')
@@ -34,6 +33,10 @@
         ipcRenderer.on('todoList:display', (event, todos) => {
             debugger
             displayTodos(todos);
+        })
+
+        ipcRenderer.on('todo:clear', () => {
+            todoList.innerHTML = '';
         })
 
 

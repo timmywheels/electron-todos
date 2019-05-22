@@ -53,14 +53,14 @@ const menuTemplate = [
                 label: 'New Todo',
                 accelerator: process.platform === 'darwin' ? 'Command+N' : 'Ctrl+N',
                 click(){
-                    createAddWindow();
+                    createAddWindow()
                 }
             },
             {
                 label: 'Clear All Todos',
                 accelerator: process.platform === 'darwin' ? 'Command+X' : 'Control+X',
                 click() {
-                    clearAllTodos()
+                    mainWindow.webContents.send('todo:clear')
                 }
             },
             {
